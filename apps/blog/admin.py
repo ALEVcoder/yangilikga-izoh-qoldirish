@@ -1,3 +1,4 @@
+from xml.etree.ElementPath import prepare_descendant
 from django.contrib import admin
 from .models import Post, Comment
 # Register your models here.
@@ -5,8 +6,10 @@ from .models import Post, Comment
 # Yangilik uchun admin panel
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    pass
-
+    prepopulated_fields = {
+        'slug': ['title']
+    }
+    
 
 # Izoh uchun admin panel
 @admin.register(Comment)

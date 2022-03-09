@@ -1,8 +1,15 @@
 from operator import mod
+from statistics import mode
 from django.db import models
-from django.contrib.auth.models import User
+from apps.account.models import Account as User
 from django.urls import reverse
 # Create your models here.
+
+
+class Info(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    roly = True
+
 
 class Post(models.Model):
     """
@@ -11,7 +18,7 @@ class Post(models.Model):
 
     title = models.CharField(max_length=256)
     subtitle = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=512)
+    slug = models.SlugField(max_length=512, unique=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to='news')
     content = models.TextField()

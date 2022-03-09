@@ -2,7 +2,10 @@ from django.http import Http404
 from django.shortcuts import render
 from django.views.generic import View
 from .models import Post, Comment
+from .permissions import FriendRequiredMixin
 # Create your views here.
+
+
 
 class PostList(View):
     template_name = 'post_list.html'
@@ -17,7 +20,8 @@ class PostList(View):
         )
 
 
-class PostDetail(View):
+class PostDetail(FriendRequiredMixin, View):
+    login_url = '/'
     template_name = 'post_detail.html'
     def get(self, request, post_slug):
         post = Post.objects.get(slug=self.kwargs['post_slug'])
